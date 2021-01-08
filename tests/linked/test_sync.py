@@ -238,8 +238,9 @@ def test_rapid_remote_changes(m):
             mode=WriteMode.update(md.rev),
         )
 
+    # reset file content
     with open(resources + "/file.txt", "w") as f:
-        f.write("content")  # reset file content
+        f.write("content")
 
     wait_for_idle(m)
 
@@ -545,7 +546,7 @@ def test_selective_sync_conflict(m):
     m.exclude_item("/sync_tests/folder")
     wait_for_idle(m)
 
-    assert not (osp.exists(m.test_folder_local + "/folder"))
+    assert not osp.exists(m.test_folder_local + "/folder")
 
     # recreate 'folder' locally
     os.mkdir(m.test_folder_local + "/folder")
@@ -672,14 +673,14 @@ def test_mignore(m):
     os.mkdir(m.test_folder_local + "/foo")
     wait_for_idle(m)
 
-    assert not (m.client.get_metadata("/sync_tests/foo"))
+    assert not m.client.get_metadata("/sync_tests/foo")
 
     # 3) test that renaming an item excludes it
 
     move(m.test_folder_local + "/bar", m.test_folder_local + "/build")
     wait_for_idle(m)
 
-    assert not (m.client.get_metadata("/sync_tests/build"))
+    assert not m.client.get_metadata("/sync_tests/build")
 
     # 4) test that renaming an item includes it
 
